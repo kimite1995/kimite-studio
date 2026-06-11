@@ -1,10 +1,20 @@
 "use client";
 
-import { site } from "@/data/site";
+import { useEffect, useState } from "react";
+import { site as fallbackSite } from "@/data/site";
+import { getSiteSettings } from "@/lib/sanity";
 import * as Icons from "lucide-react";
 import { motion } from "framer-motion";
 
 export function Services() {
+  const [site, setSite] = useState(fallbackSite);
+
+  useEffect(() => {
+    getSiteSettings().then((data) => {
+      if (data) setSite(data as any);
+    });
+  }, []);
+
   return (
     <section id="services" className="section max-w-7xl mx-auto px-6 py-20">
       <div className="text-center mb-12">

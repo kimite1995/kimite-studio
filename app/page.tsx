@@ -5,9 +5,14 @@ import { About } from "@/components/about";
 import { Services } from "@/components/services";
 import { ContactForm } from "@/components/contact-form";
 import { Footer } from "@/components/footer";
-import { site } from "@/data/site";
+import { site as fallbackSite } from "@/data/site";
+import { getSiteSettings } from "@/lib/sanity";
 
-export default function KimiteStudioPortfolio() {
+export default async function KimiteStudioPortfolio() {
+  // 서버에서 사이트 설정 가져오기 (빠름 + SEO 좋음)
+  const siteData = await getSiteSettings();
+  const site = siteData || fallbackSite;
+
   return (
     <div className="min-h-screen bg-[#0A0A0F] text-[#F8F8FA] selection:bg-[#00F0FF] selection:text-black">
       <Navbar />

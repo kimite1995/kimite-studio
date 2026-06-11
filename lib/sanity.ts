@@ -46,3 +46,33 @@ export async function getWorks() {
     return []
   }
 }
+
+export async function getSiteSettings() {
+  try {
+    const data = await client.fetch(
+      `*[_type == "siteSettings"][0]{
+        name,
+        fullName,
+        tagline,
+        hero,
+        about{
+          title,
+          intro,
+          philosophy,
+          "aboutPhoto": aboutPhoto.asset->url,
+          tools,
+          stats
+        },
+        services,
+        contact,
+        footer
+      }`,
+      {},
+      { perspective: 'published' }
+    )
+    return data
+  } catch (err) {
+    console.error('[Sanity] getSiteSettings failed.', err)
+    return null
+  }
+}

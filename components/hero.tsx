@@ -1,10 +1,20 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
-import { site } from "@/data/site";
+import { getSiteSettings } from "@/lib/sanity";
+import { site as fallbackSite } from "@/data/site";
 
 export function Hero() {
+  const [site, setSite] = useState(fallbackSite);
+
+  useEffect(() => {
+    getSiteSettings().then((data) => {
+      if (data) setSite(data as any);
+    });
+  }, []);
+
   const scrollToWorks = () => {
     const el = document.getElementById("works");
     if (el) {

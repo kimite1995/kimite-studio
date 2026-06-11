@@ -1,14 +1,24 @@
 "use client";
 
-import { site } from "@/data/site";
+import { useEffect, useState } from "react";
+import { site as fallbackSite } from "@/data/site";
+import { getSiteSettings } from "@/lib/sanity";
 import { motion } from "framer-motion";
 
 export function About() {
+  const [site, setSite] = useState(fallbackSite);
+
+  useEffect(() => {
+    getSiteSettings().then((data) => {
+      if (data) setSite(data as any);
+    });
+  }, []);
+
   return (
     <section id="about" className="section bg-[#111114] py-20 border-y border-[#222228]">
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-12 gap-y-12 items-start">
-          {/* Left - Title + Photo placeholder */}
+          {/* Left - Title + Photo from Sanity */}
           <div className="md:col-span-5">
             <div className="sticky top-24">
               <div className="text-[#00F0FF] text-xs tracking-[3px] font-mono mb-3">CHAPTER 01</div>
@@ -16,14 +26,24 @@ export function About() {
                 {site.about.title}
               </h2>
 
-              {/* Profile Photo Placeholder */}
-              <div className="aspect-[4/3] bg-[#1A1A20] rounded-2xl border border-[#222228] flex items-center justify-center mb-6 overflow-hidden">
-                <div className="text-center text-[#71717A]">
-                  <div className="text-sm tracking-widest mb-2">YOUR PHOTO</div>
-                  <div className="text-xs">public/images/profile.jpg</div>
-                </div>
+              {/* Profile Photo from Sanity */}
+              <div className="aspect-[4/3] bg-[#1A1A20] rounded-2xl border border-[#222228] overflow-hidden mb-6">
+                {site.about.aboutPhoto ? (
+                  <img 
+                    src={site.about.aboutPhoto} 
+                    alt="프로필 사진" 
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-[#71717A]">
+                    <div className="text-center">
+                      <div className="text-sm tracking-widest mb-2">프로필 사진</div>
+                      <div className="text-xs">관리자에서 사진 업로드</div>
+                    </div>
+                  </div>
+                )}
               </div>
-              <p className="text-xs text-[#71717A]">실제 프로필 사진으로 교체하세요 (추천 비율 4:3)</p>
+              <p className="text-xs text-[#71717A]">관리자 페이지 → 사이트 설정 → 어바웃 섹션에서 사진 교체</p>
             </div>
           </div>
 
