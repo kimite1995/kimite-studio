@@ -69,7 +69,7 @@ export function WorkModal({ work, isOpen, onClose }: WorkModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 20 }}
             transition={{ type: "spring", damping: 28, stiffness: 260 }}
-            className="modal-content relative w-full max-w-5xl z-10 flex flex-col overflow-hidden"
+            className="modal-content relative w-full max-w-5xl z-[110] flex flex-col overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
