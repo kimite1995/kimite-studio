@@ -33,11 +33,21 @@ export function WorkModal({ work, isOpen, onClose }: WorkModalProps) {
   const isYouTube = work.videoUrl.includes("youtube.com") || work.videoUrl.includes("youtu.be");
   const isVimeo = work.videoUrl.includes("vimeo.com");
 
-  // YouTube embed URL 정규화
+  // YouTube embed URL 정규화 (더 안정적인 ID 추출)
   let embedUrl = work.videoUrl;
   if (isYouTube && !work.videoUrl.includes("/embed/")) {
-    const videoId = work.videoUrl.split("v=")[1]?.split("&")[0] || work.videoUrl.split("/").pop();
-    embedUrl = `https://www.youtube.com/embed/${videoId}`;
+    const getYouTubeId = (url: string): string | null => {
+      const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+      const match = url.match(regex);
+      return match ? match[1] : null;
+    };
+    const videoId = getYouTubeId(work.videoUrl);
+    if (videoId) {
+      embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1`;
+    } else {
+      // fallback
+      embedUrl = work.videoUrl;
+    }
   }
 
   return (
@@ -59,7 +69,7 @@ export function WorkModal({ work, isOpen, onClose }: WorkModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 20 }}
             transition={{ type: "spring", damping: 28, stiffness: 260 }}
-            className="modal-content relative w-full max-w-5xl z-10 overflow-y-auto"
+            className="modal-content relative w-full max-w-5xl z-10 flex flex-col overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -71,8 +81,8 @@ export function WorkModal({ work, isOpen, onClose }: WorkModalProps) {
               <X size={20} />
             </button>
 
-            {/* Video Player */}
-            <div className="modal-video-wrapper bg-black">
+            {/* Video Player - fixed aspect, no shrink */}
+            <div className="modal-video-wrapper bg-black flex-shrink-0">
               {isDirectVideo ? (
                 <video
                   src={work.videoUrl}
@@ -87,7 +97,7 @@ export function WorkModal({ work, isOpen, onClose }: WorkModalProps) {
                   title={work.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
-                  className="w-full h-full"
+                  className="w-full h-full border-0"
                 />
               ) : (
                 // Fallback: direct video assumed
@@ -101,15 +111,15 @@ export function WorkModal({ work, isOpen, onClose }: WorkModalProps) {
               )}
             </div>
 
-            {/* Metadata + Description */}
-            <div className="p-8 md:p-10">
+            {/* Metadata + Description - scrolls if needed */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-5 md:p-6">
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 <span className="badge">{work.category}</span>
                 <span className="badge">{work.year}</span>
                 <span className="badge">{work.duration}</span>
               </div>
 
-              <h2 className="text-3xl md:text-4xl font-semibold tracking-[-1px] leading-tight mb-3">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-[-1px] leading-tight mb-3 break-keep break-words">
                 {work.title}
               </h2>
 

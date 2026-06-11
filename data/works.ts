@@ -5,7 +5,7 @@
 // ============================================
 
 export interface Work {
-  id: number;
+  id: string | number;         // Sanity _id (string) or legacy number
   title: string;
   shortDesc: string;           // 카드에 보이는 짧은 설명
   description: string;         // 모달에서 보여줄 상세 설명 (여러 줄 가능)

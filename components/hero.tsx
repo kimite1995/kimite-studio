@@ -30,17 +30,17 @@ export function Hero() {
       </div>
 
       <div className="relative z-10 max-w-5xl px-6 text-center">
-        <div className="inline-block mb-4 px-4 py-1 rounded-full border border-[#33333A] text-xs tracking-[3px] text-[#A1A1AA] font-mono">
+        <div className="inline-block mb-3 px-3 py-1 sm:mb-4 sm:px-4 sm:py-1 rounded-full border border-[#33333A] text-[9px] sm:text-[10px] md:text-xs tracking-[2px] sm:tracking-[3px] text-[#A1A1AA] font-mono">
           AI CINEMATIC DIRECTOR
         </div>
 
-        <h1 className="font-display text-[64px] md:text-[88px] leading-[1.05] tracking-[-1.5px] md:tracking-[-2px] font-semibold mb-8">
+        <h1 className="font-display text-[28px] sm:text-[40px] md:text-[56px] lg:text-[72px] leading-[1.05] tracking-[-0.5px] sm:tracking-[-1px] md:tracking-[-1.5px] font-semibold mb-3 sm:mb-5">
           {site.hero.headline.split("\n").map((line, i) => (
             <span key={i} className="block">{line}</span>
           ))}
         </h1>
 
-        <p className="max-w-xl mx-auto text-xl md:text-2xl text-[#A1A1AA] tracking-[-0.2px] leading-relaxed mb-10 whitespace-pre-line">
+        <p className="max-w-xl mx-auto text-sm sm:text-base md:text-xl text-[#A1A1AA] tracking-[-0.2px] leading-relaxed mb-6 sm:mb-8 whitespace-pre-line">
           {site.hero.subheadline}
         </p>
 

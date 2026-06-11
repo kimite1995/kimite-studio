@@ -79,16 +79,16 @@ export function WorkCard({ work, onClick, featured = false }: WorkCardProps) {
       </div>
 
       {/* Info */}
-      <div className="p-5">
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="font-semibold text-lg leading-tight tracking-[-0.3px] pr-2">
+      <div className="p-4 sm:p-5">
+        <div className="flex items-start justify-between gap-2 sm:gap-3">
+          <h3 className="font-semibold text-xs sm:text-sm md:text-base leading-tight tracking-[-0.2px] pr-1 sm:pr-2 break-keep break-words">
             {work.title}
           </h3>
-          <span className="text-xs text-[#A1A1AA] font-mono mt-1 whitespace-nowrap">
+          <span className="text-[10px] sm:text-xs text-[#A1A1AA] font-mono mt-0.5 sm:mt-1 whitespace-nowrap flex-shrink-0">
             {work.year}
           </span>
         </div>
-        <p className="text-[#A1A1AA] text-sm mt-2 line-clamp-2">
+        <p className="text-[#A1A1AA] text-xs sm:text-sm md:text-sm mt-1.5 sm:mt-2 line-clamp-2 break-words">
           {work.shortDesc}
         </p>
       </div>

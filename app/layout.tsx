@@ -24,7 +24,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "KIMITE STUDIO | AI 시네마틱 영상 제작",
   description: "AI로 만드는 영화 같은 영상. 브랜드 필름, 광고, 뮤직비디오, 추모영상 전문. KIMITE STUDIO — 압도적인 비주얼 스토리텔링.",
-  metadataBase: new URL("https://kimite.studio"), // 나중에 실제 도메인으로 바꿀 예정 (예: https://yourdomain.com)
+  metadataBase: new URL("https://kimite.kr"),
   icons: {
     icon: "/favicon.ico",
   },

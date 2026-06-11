@@ -124,7 +124,7 @@ body {
   border: 1px solid var(--border);
   border-radius: 20px;
   max-height: 92vh;
-  overflow: hidden;
+  /* overflow hidden 제거: 아래 설명/툴 영역이 잘리지 않게 */
 }
 
 /* Beautiful Buttons */
@@ -274,8 +274,14 @@ select option {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 28px;
+  padding: 20px;
   transition: all 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .service-card {
+    padding: 28px;
+  }
 }
 
 .service-card:hover {
