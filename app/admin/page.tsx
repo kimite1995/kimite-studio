@@ -49,9 +49,12 @@ export default function AdminPage() {
 
   const onDragEnd = () => setDragIndex(null);
 
-  const updateWork = (index: number, field: keyof Work, value: any) => {
+  const updateWork = <K extends keyof Work>(index: number, field: K, value: Work[K]) => {
     const newWorks = [...works];
-    (newWorks[index] as any)[field] = value;
+    newWorks[index] = {
+      ...newWorks[index],
+      [field]: value,
+    };
     setWorks(newWorks);
   };
 
@@ -66,7 +69,6 @@ export default function AdminPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const objectUrl = URL.createObjectURL(file);
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
     const safeTitle = works[index].title.toLowerCase().replace(/[^a-z0-9가-힣]/g, "-").slice(0, 40);
     const suggestedName = `${safeTitle}-${Date.now()}.${ext}`;
@@ -275,7 +277,7 @@ export default function AdminPage() {
 
                 <div>
                   <label className="text-xs text-[#A1A1AA] block mb-1">카테고리</label>
-                  <select value={work.category} onChange={(e) => updateWork(index, "category", e.target.value as any)} className="w-full bg-[#0A0A0F] border border-[#222228] p-2 rounded-lg">
+                  <select value={work.category} onChange={(e) => updateWork(index, "category", e.target.value as Work["category"])} className="w-full bg-[#0A0A0F] border border-[#222228] p-2 rounded-lg">
                     {categories.filter(c => c !== "All").map(cat => <option key={cat} value={cat}>{cat}</option>)}
                   </select>
                 </div>
@@ -301,7 +303,7 @@ export default function AdminPage() {
         <div className="mt-10 p-6 bg-[#111114] rounded-2xl border border-[#222228]">
           <h3 className="font-semibold mb-2">저장 방법 (현재 구조의 한계)</h3>
           <ol className="list-decimal list-inside text-sm space-y-1 text-[#A1A1AA]">
-            <li>위 "Export Changes" 버튼 클릭 (코드 + 선택한 파일 자동 다운로드)</li>
+            <li>위 &quot;Export Changes&quot; 버튼 클릭 (코드 + 선택한 파일 자동 다운로드)</li>
             <li>다운로드된 파일들을 <code>public/images/works</code> 또는 <code>public/videos</code> 폴더에 넣기</li>
             <li><code>data/works.json</code> (또는 works.ts) 파일 내용 전체를 교체</li>
             <li>start.bat으로 테스트 후 git push</li>

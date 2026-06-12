@@ -4,7 +4,69 @@
 // (코딩 없이도 쉽게 편집 가능)
 // ============================================
 
-export const site = {
+export interface SiteStat {
+  number: number;
+  label: string;
+  suffix: string;
+}
+
+export interface ServiceItem {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+export interface SiteConfig {
+  name: string;
+  fullName: string;
+  tagline: string;
+  hero: {
+    badge: string;
+    headline: string;
+    subheadline: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+  };
+  about: {
+    title: string;
+    intro: string;
+    philosophy: string;
+    aboutPhoto?: string | null;
+    tools: string[];
+    stats: SiteStat[];
+  };
+  servicesTag?: string;
+  servicesTitle?: string;
+  servicesIntro?: string;
+  worksFeaturedLabel?: string;
+  worksFeaturedTitle?: string;
+  worksAllLabel?: string;
+  worksAllTitle?: string;
+  worksIntro?: string;
+  servicesNote?: string;
+  services: ServiceItem[];
+  contact: {
+    tag: string;
+    title: string;
+    intro: string;
+    email: string;
+    responseTime: string;
+    youtube?: string;
+  };
+  footer: {
+    copyright: string;
+    location: string;
+  };
+}
+
+export type SiteSettings = Partial<Omit<SiteConfig, "hero" | "about" | "contact" | "footer">> & {
+  hero?: Partial<SiteConfig["hero"]>;
+  about?: Partial<SiteConfig["about"]>;
+  contact?: Partial<SiteConfig["contact"]>;
+  footer?: Partial<SiteConfig["footer"]>;
+};
+
+export const site: SiteConfig = {
   // 브랜드명 (로고, 타이틀에 사용)
   name: "KIMITE",
   fullName: "KIMITE STUDIO",
@@ -12,6 +74,7 @@ export const site = {
 
   // Hero 섹션
   hero: {
+    badge: "AI CINEMATIC DIRECTOR",
     headline: "AI로 빚어내는\n영화 같은 순간",
     subheadline: "광고, 브랜드 필름, 뮤직비디오, 추모영상까지.\n최신 AI 툴로 압도적인 비주얼 스토리텔링을 만듭니다.",
     ctaPrimary: "대표 작품 보기",
@@ -39,6 +102,15 @@ export const site = {
       { number: 100, label: "클라이언트 만족", suffix: "%" },
     ],
   },
+
+  servicesTag: "WHAT I OFFER",
+  servicesTitle: "Services",
+  servicesIntro: "AI 영상 제작부터 레슨까지. 프로젝트에 가장 적합한 형태로 함께합니다.",
+  worksFeaturedLabel: "SELECTED WORK",
+  worksFeaturedTitle: "Featured Works",
+  worksAllLabel: "PORTFOLIO",
+  worksAllTitle: "All Works",
+  worksIntro: "클릭하면 작품 설명과 영상을 펼쳐서 볼 수 있습니다.",
 
   // Services (사용자 피드백 반영: 광고, MV, 추모 + AI 레슨)
   services: [
@@ -73,9 +145,13 @@ export const site = {
       desc: "회사/팀 대상 AI 영상 제작 프로세스 구축 컨설팅. 툴 선정부터 파이프라인까지 함께 만듭니다.",
     },
   ],
+  servicesNote: "모든 프로젝트는 맞춤 견적으로 진행됩니다. 구체적인 브리프를 보내주세요.",
 
   // Contact
   contact: {
+    tag: "LET'S CREATE TOGETHER",
+    title: "프로젝트를 시작해볼까요?",
+    intro: "브랜드 필름, 광고, 뮤직비디오, 추모영상, AI 레슨까지.\n원하는 프로젝트를 자세히 알려주세요.",
     email: "hello@kimite.studio", // 실제 이메일로 변경하세요
     responseTime: "보통 24시간 이내에 답변드립니다.",
     youtube: "https://youtube.com/channel/UC4_81qSZYpojuQVZPKuu80Q",
@@ -86,7 +162,35 @@ export const site = {
   // Footer
   footer: {
     copyright: "© KIMITE STUDIO. All rights reserved.",
+    location: "Seoul, Korea",
   },
-} as const;
+};
 
-export type SiteConfig = typeof site;
+export function mergeSiteSettings(settings?: SiteSettings | null): SiteConfig {
+  if (!settings) return site;
+
+  return {
+    ...site,
+    ...settings,
+    hero: {
+      ...site.hero,
+      ...(settings.hero || {}),
+    },
+    about: {
+      ...site.about,
+      ...(settings.about || {}),
+      tools: settings.about?.tools?.length ? settings.about.tools : site.about.tools,
+      stats: settings.about?.stats?.length ? settings.about.stats : site.about.stats,
+      aboutPhoto: settings.about?.aboutPhoto ?? site.about.aboutPhoto,
+    },
+    services: settings.services?.length ? settings.services : site.services,
+    contact: {
+      ...site.contact,
+      ...(settings.contact || {}),
+    },
+    footer: {
+      ...site.footer,
+      ...(settings.footer || {}),
+    },
+  };
+}

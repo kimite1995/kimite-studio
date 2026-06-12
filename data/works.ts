@@ -4,20 +4,54 @@
 // (코딩 모르는 사람도 쉽게 편집 가능)
 // ============================================
 
+export type WorkCategory =
+  | "Brand Film"
+  | "Commercial"
+  | "Music Video"
+  | "Reel"
+  | "Product"
+  | "Video Product";
+
+export const categoryLabels: Record<WorkCategory | "All", string> = {
+  All: "전체",
+  "Brand Film": "브랜드 필름",
+  Commercial: "광고",
+  Product: "제품 영상",
+  "Video Product": "영상 상품",
+  "Music Video": "뮤직비디오",
+  Reel: "숏폼",
+};
+
+export interface WorkVideo {
+  title?: string;            // 이 영상의 부제 (없으면 메인 title 사용)
+  videoUrl: string;
+  duration?: string;
+  thumbnail?: string;
+}
+
 export interface Work {
   id: string | number;         // Sanity _id (string) or legacy number
   title: string;
+  workTypeTitle?: string;      // 카드 큰 제목: 예) 회사 소개 영상, 제품 홍보 영상
+  brandName?: string;          // 카드 보조 제목: 예) 더블트러블, 바오밥매트
+  mainVideoTitle?: string;     // 대표 영상 개별 제목: 예) 육각매트 제품 홍보영상
   shortDesc: string;           // 카드에 보이는 짧은 설명
   description: string;         // 모달에서 보여줄 상세 설명 (여러 줄 가능)
-  thumbnail: string;           // 썸네일 이미지 경로 (public/images/works/ 안에 넣으세요)
-  videoUrl: string;            // 중요! 영상 URL
+  thumbnail?: string;          // 썸네일 이미지 경로 (public/images/works/ 안에 넣으세요)
+  videoUrl?: string;           // 중요! 영상 URL (레거시 단일 영상용)
                                // - .mp4 직접 링크 → hover 미리보기 + 모달에서 네이티브 플레이어
                                // - youtube.com 또는 vimeo.com 포함 → 모달에서 iframe embed
-  duration: string;
+  duration?: string;
   year: string;
-  category: "Brand Film" | "Commercial" | "Music Video" | "Memorial" | "Experimental" | "Reel" | "Product";
+  featured?: boolean;
+  sortOrder?: number;
+  category: WorkCategory;
+  categories?: WorkCategory[];
   tools: string[];
   role?: string;
+
+  // 여러 영상 지원 (하나의 work에 여러 영상)
+  videos?: WorkVideo[];
 }
 
 // ============================================
@@ -83,7 +117,7 @@ export const works: Work[] = [
     videoUrl: SAMPLE_MP4,
     duration: "3:02",
     year: "2025",
-    category: "Memorial",
+    category: "Video Product",
     tools: ["Kling AI", "Topaz Video AI", "Premiere Pro"],
     role: "Director, Editor",
   },
@@ -122,7 +156,7 @@ export const works: Work[] = [
     videoUrl: SAMPLE_MP4,
     duration: "1:55",
     year: "2024",
-    category: "Experimental",
+    category: "Music Video",
     tools: ["Runway Gen-3", "Midjourney", "Kling", "Premiere Pro"],
     role: "Creative + Technical Director",
   },
@@ -148,7 +182,7 @@ export const works: Work[] = [
     videoUrl: SAMPLE_MP4,
     duration: "4:12",
     year: "2025",
-    category: "Memorial",
+    category: "Video Product",
     tools: ["Kling AI", "Topaz", "Premiere Pro"],
     role: "Director & Editor",
   },
@@ -161,7 +195,7 @@ export const works: Work[] = [
     videoUrl: SAMPLE_MP4,
     duration: "1:41",
     year: "2024",
-    category: "Experimental",
+    category: "Brand Film",
     tools: ["Runway", "Kling", "Luma", "Custom Workflow"],
     role: "Sole Creator",
   },
@@ -173,8 +207,7 @@ export const categories = [
   "Brand Film",
   "Commercial",
   "Product",
+  "Video Product",
   "Music Video",
-  "Memorial",
-  "Experimental",
   "Reel",
 ] as const;

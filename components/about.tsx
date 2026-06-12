@@ -1,18 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { site as fallbackSite } from "@/data/site";
-import { getSiteSettings } from "@/lib/sanity";
-import { motion } from "framer-motion";
+import type { SiteConfig } from "@/data/site";
 
-export function About() {
-  const [site, setSite] = useState(fallbackSite);
+interface AboutProps {
+  site: SiteConfig;
+}
 
-  useEffect(() => {
-    getSiteSettings().then((data) => {
-      if (data) setSite(data as any);
-    });
-  }, []);
+export function About({ site }: AboutProps) {
 
   return (
     <section id="about" className="section bg-[#111114] py-20 border-y border-[#222228]">
@@ -43,7 +37,7 @@ export function About() {
                   </div>
                 )}
               </div>
-              <p className="text-xs text-[#71717A]">관리자 페이지 → 사이트 설정 → 어바웃 섹션에서 사진 교체</p>
+
             </div>
           </div>
 

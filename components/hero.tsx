@@ -1,19 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
-import { getSiteSettings } from "@/lib/sanity";
-import { site as fallbackSite } from "@/data/site";
+import type { SiteConfig } from "@/data/site";
 
-export function Hero() {
-  const [site, setSite] = useState(fallbackSite);
+interface HeroProps {
+  site: SiteConfig;
+}
 
-  useEffect(() => {
-    getSiteSettings().then((data) => {
-      if (data) setSite(data as any);
-    });
-  }, []);
+export function Hero({ site }: HeroProps) {
 
   const scrollToWorks = () => {
     const el = document.getElementById("works");
@@ -41,7 +36,7 @@ export function Hero() {
 
       <div className="relative z-10 max-w-5xl px-6 text-center">
         <div className="inline-block mb-3 px-3 py-1 sm:mb-4 sm:px-4 sm:py-1 rounded-full border border-[#33333A] text-[9px] sm:text-[10px] md:text-xs tracking-[2px] sm:tracking-[3px] text-[#A1A1AA] font-mono">
-          AI CINEMATIC DIRECTOR
+          {site.hero.badge}
         </div>
 
         <h1 className="font-display text-[28px] sm:text-[40px] md:text-[56px] lg:text-[72px] leading-[1.05] tracking-[-0.5px] sm:tracking-[-1px] md:tracking-[-1.5px] font-semibold mb-3 sm:mb-5">

@@ -1,6 +1,10 @@
-import { site } from "@/data/site";
+import type { SiteConfig } from "@/data/site";
 
-export function Footer() {
+interface FooterProps {
+  site: SiteConfig;
+}
+
+export function Footer({ site }: FooterProps) {
   return (
     <footer className="border-t border-[#222228] bg-[#0A0A0F] py-10">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between gap-y-4 text-sm text-[#71717A]">
@@ -20,7 +24,7 @@ export function Footer() {
               YouTube
             </a>
           )}
-          <span>Seoul, Korea</span>
+          <span>{site.footer.location}</span>
         </div>
       </div>
     </footer>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { site } from "@/data/site";
+import type { SiteConfig } from "@/data/site";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -12,7 +12,11 @@ const navLinks = [
   { href: "#contact", label: "Contact" },
 ];
 
-export function Navbar() {
+interface NavbarProps {
+  site: SiteConfig;
+}
+
+export function Navbar({ site }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const scrollTo = (href: string) => {

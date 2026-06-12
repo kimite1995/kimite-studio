@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 :root {
+  --font-geist-sans: "Geist", "Pretendard", "Inter", "Noto Sans KR", Arial, sans-serif;
+  --font-geist-mono: "Geist Mono", "SFMono-Regular", Consolas, monospace;
+  --font-space-grotesk: "Space Grotesk", "Pretendard", "Inter", "Noto Sans KR", Arial, sans-serif;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-space-grotesk);

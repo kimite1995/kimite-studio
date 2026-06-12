@@ -1,11 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { site } from "@/data/site";
+import type { SiteConfig } from "@/data/site";
 import { Send } from "lucide-react";
 import { toast } from "sonner";
 
-export function ContactForm() {
+interface ContactFormProps {
+  site: SiteConfig;
+}
+
+export function ContactForm({ site }: ContactFormProps) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -58,7 +62,7 @@ export function ContactForm() {
         budget: "상담 후 결정",
         message: "",
       });
-    } catch (err) {
+    } catch {
       toast.error("전송에 실패했습니다.", {
         description: "잠시 후 다시 시도하거나 hello@kimite.studio 로 직접 메일 주세요.",
       });
